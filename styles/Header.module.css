@@ -1,0 +1,31 @@
+.containerHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-around;
+  background-color: #0086ad;
+  padding: 10px 20px 10px 20px;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.img {
+  width: 50px;
+}
+.center {
+  display: flex;
+  flex-direction: column;
+}
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user {
+  color: #97ebdb;
+  width: 100px;
+  height: 50px;
+}
