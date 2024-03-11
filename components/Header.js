@@ -1,9 +1,9 @@
 import styles from "../styles/Header.module.css";
 import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { UseDispatch, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../reducers/user";
 import { Modal } from "antd";
 
@@ -63,13 +63,17 @@ function Header() {
 
   const showModal = () => {
     setIsModalVisible(!isModalVisible);
-    console.log("open modal");
   };
 
   let modalConnection;
   if (!user.isConnected) {
     modalConnection = (
-      <div className={styles.connectionContainer}>
+      <div className={styles.userContainer}>
+        <FontAwesomeIcon
+          icon={faXmark}
+          onClick={() => showModal()}
+          className={styles.xmark}
+        />
         <div className={styles.registerSection}>
           <p>Sign-up</p>
           <input
@@ -121,7 +125,7 @@ function Header() {
         <h3 className={styles.title}>To do list</h3>
       </div>
       <div className={styles.center}>
-        <h1 className={styles.title}>Bienvenue !</h1>
+        <h1 className={styles.title}>Bienvenue {user.username}!</h1>
         <Moment
           className={styles.date}
           date={date}
@@ -144,7 +148,7 @@ function Header() {
             closable={false}
             footer={null}
           >
-            {modalContent}
+            {modalConnection}
           </Modal>
         </div>
       )}

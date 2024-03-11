@@ -1,24 +1,19 @@
 .main {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 1rem;
+  border: 1rem solid white;
+  border-radius: 10px;
 }
 
-.title {
-  line-height: 1.15;
-  font-size: 4rem;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border: 5px solid #005582;
+  border-radius: 5px;
+  width: 30%;
+  height: 30rem;
 }
