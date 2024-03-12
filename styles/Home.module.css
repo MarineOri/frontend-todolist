@@ -10,10 +10,14 @@
 
 .card {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   border: 5px solid #005582;
   border-radius: 5px;
   width: 30%;
   height: 30rem;
+}
+.containerAdd {
+  display: flex;
 }
