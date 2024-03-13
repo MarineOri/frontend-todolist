@@ -4,7 +4,7 @@ import { useState } from "react";
 function Mark() {
   const [taskName, setTaskName] = useState("");
   return (
-    <div>
+    <div className={styles.containerTask}>
       <input
         type="text"
         placeholder="Task"

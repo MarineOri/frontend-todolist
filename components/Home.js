@@ -10,10 +10,15 @@ function Home() {
       <Header />
       <main className={styles.main}>
         <div className={styles.card}>
-          <h1>Creat your list</h1>
+          <h1 className={styles.title}>Creat your list</h1>
           <div className={styles.containerAdd}>
             <h4>Add a List</h4>
-            <input type="text" placeholder="List" id="ListName" />
+            <input
+              type="text"
+              placeholder="List"
+              id="ListName"
+              className={styles.input}
+            />
             <button id="add" className={styles.button}>
               Add
             </button>
@@ -29,7 +34,7 @@ function Home() {
               Add
             </button>
           </div>
-          {/* <List /> */}
+          <List />
         </div>
         <div className={styles.card}>
           <h1>My Lists</h1>

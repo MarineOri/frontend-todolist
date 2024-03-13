@@ -11,13 +11,23 @@
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: center;
   border: 5px solid #005582;
   border-radius: 5px;
   width: 30%;
   height: 30rem;
 }
+.title {
+  color: black;
+}
 .containerAdd {
   display: flex;
+  justify-content: center;
+  gap: 10;
+}
+.input {
+  background-color: blue;
+  width: 15rem;
+  height: 2rem;
 }
