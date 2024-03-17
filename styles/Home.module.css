@@ -13,21 +13,21 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border: 5px solid #005582;
-  border-radius: 5px;
+  border: thick double #0086ad;
+  box-shadow: 10px 5px 5px #0086ad;
+  border-radius: 20px;
   width: 30%;
   height: 30rem;
+  background-color: #daf8e3;
 }
 .title {
   color: black;
 }
 .containerAdd {
   display: flex;
+  height: 20%;
+  width: 100%;
   justify-content: center;
-  gap: 10;
-}
-.input {
-  background-color: blue;
-  width: 15rem;
-  height: 2rem;
+  align-items: center;
+  gap: 50;
 }

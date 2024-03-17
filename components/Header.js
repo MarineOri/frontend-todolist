@@ -1,7 +1,11 @@
 import styles from "../styles/Header.module.css";
 import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faXmark,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../reducers/user";
@@ -33,7 +37,14 @@ function Header() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(login({ username: signUpUsername, token: data.token }));
+          console.log(data);
+          dispatch(
+            login({
+              username: signUpUsername,
+              token: data.newDoc.token,
+              id: data.newDoc._id,
+            })
+          );
           setSignUpUsername("");
           setSignUpPassword("");
           setIsModalVisible(false);
@@ -53,7 +64,14 @@ function Header() {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(login({ username: signInUsername, token: data.token }));
+          console.log(data);
+          dispatch(
+            login({
+              username: signInUsername,
+              token: data.data.token,
+              id: data.data._id,
+            })
+          );
           setSignInUsername("");
           setSignInPassword("");
           setIsModalVisible(false);
@@ -137,6 +155,10 @@ function Header() {
           onClick={showModal}
           icon={faUser}
           className={styles.user}
+        />
+        <FontAwesomeIcon
+          icon={faRightFromBracket}
+          onClick={() => dispatch(logout())}
         />
       </div>
       {isModalVisible && (
