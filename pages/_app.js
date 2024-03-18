@@ -7,8 +7,9 @@ import storage from "redux-persist/lib/storage";
 import { Provider } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import user from "../reducers/user";
+import lists from "../reducers/lists";
 
-const reducers = combineReducers({ user });
+const reducers = combineReducers({ user, lists });
 const persistConfig = { key: "todolist", storage };
 
 const store = configureStore({

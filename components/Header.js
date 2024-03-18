@@ -9,6 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../reducers/user";
+import { deleteLists } from "../reducers/lists";
 import { Modal } from "antd";
 
 function Header() {
@@ -158,7 +159,7 @@ function Header() {
         />
         <FontAwesomeIcon
           icon={faRightFromBracket}
-          onClick={() => dispatch(logout())}
+          onClick={() => dispatch(logout()) && dispatch(deleteLists())}
         />
       </div>
       {isModalVisible && (

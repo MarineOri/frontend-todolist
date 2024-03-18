@@ -1,5 +1,7 @@
 import styles from "../styles/Mark.module.css";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 function Task() {
   const [taskName, setTaskName] = useState("");
@@ -24,7 +26,7 @@ function Task() {
 
   return (
     <div className={styles.containerTask}>
-      <label className={styles.container}>
+      {/* <label className={styles.container}>
         <input type="checkbox" />
         <svg viewBox="0 0 64 64" height="2em" width="2em">
           <path
@@ -33,7 +35,14 @@ function Task() {
             className={styles.path}
           ></path>
         </svg>
-      </label>
+      </label> */}
+      {/* <input
+        type="checkbox"
+        onClick={() => dispatch(completeTask(props.id))}
+        checked={props.completed}
+        className={styles.completeCheckbox}
+      /> */}
+      <text>props.name</text>
       <input
         type="text"
         placeholder="New Task"
@@ -45,6 +54,8 @@ function Task() {
       <button id="add" className={styles.button}>
         Add
       </button>
+      <FontAwesomeIcon icon={faShareNodes} />
+      <FontAwesomeIcon icon={faTrashCan} className={styles.xmark} />
     </div>
   );
 }

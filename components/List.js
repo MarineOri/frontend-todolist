@@ -1,26 +1,26 @@
 import styles from "../styles/List.module.css";
 import Task from "./Task";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addList, deleteList } from "../reducers/lists";
 
-function List() {
+function List(props) {
   const user = useSelector((state) => state.user.value);
-  /**affichege des listes de l'utilisateur à l'ouverture */
-  useEffect(() => {
-    fetch(`http://localhost:3000/lists/${user.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          console.log("data list user", data);
-        }
-      });
-  }, []);
-
-  // const lists =
+  const lists = useSelector((state) => state.lists.value);
+  const dispatch = useDispatch();
 
   return (
-    <div className={styles.container}>
-      <Task />
+    <div className={styles.containerList}>
+      <h5>{props.title}</h5>
+      {props.tasks.length ? (
+        <div>
+          <text> 0 taches réalisés sur {props.tasks.length}</text>
+        </div>
+      ) : (
+        <text> pas de tâches pour cette liste</text>
+      )}
+
+      {/* <Task /> */}
     </div>
   );
 }

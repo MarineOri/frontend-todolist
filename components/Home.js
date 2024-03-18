@@ -1,12 +1,62 @@
 import styles from "../styles/Home.module.css";
 import Header from "./Header";
 import List from "./List";
+import Task from "./Task";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addList, deleteList } from "../reducers/lists";
 
 function Home() {
   const [listTitle, setListTitle] = useState("");
+  const [listId, setListId] = useState("");
+  const [taskName, setTaskName] = useState("");
   const user = useSelector((state) => state.user.value);
+  const lists = useSelector((state) => state.lists.value);
+  const dispatch = useDispatch();
+
+  /**affichage des listes de l'utilisateur à l'ouverture */
+  useEffect(() => {
+    // user.token
+    //   ? fetch(`http://localhost:3000/lists/${user.id}`)
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         if (data.result) {
+    //           dispatch(addList(data.data));
+    //         }
+    //       })
+    //   : setListId("");
+    user.token &&
+      fetch(`http://localhost:3000/lists/${user.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            dispatch(addList(data.data));
+          }
+        });
+  }, [user]);
+  console.log("data list user", lists);
+  console.log("user", user);
+
+  let tasksdisplay;
+  const listsDisplay = lists.map((list, i) => {
+    lists.tasks &&
+      (tasksdisplay = lists.tasks.map((task, j) => {
+        <Task key={j} {...task} />;
+      }));
+    return lists.length === 0 ? (
+      <text>Pas de Listes</text>
+    ) : list.tasks.length === 0 ? (
+      <div>
+        <List key={i} {...list} />
+        <text>Pas de tâches</text>
+      </div>
+    ) : (
+      <div>
+        <List key={i} {...list} />
+        {tasksdisplay}
+      </div>
+    );
+  });
 
   /**créer une liste en base de données */
   const creatList = () => {
@@ -24,10 +74,28 @@ function Home() {
       .then((data) => {
         if (data.result) {
           setListTitle("");
+          setListId(data.newDoc._id);
+          console.log("id list", data);
         }
       });
   };
-  const creatTask = () => {};
+  const creatTask = () => {
+    fetch("http://localhost:3000/lists/newTask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: taskName,
+        isFinished: false,
+        listId: listId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          setTaskName("");
+        }
+      });
+  };
 
   return (
     <div className={styles.container}>
@@ -61,20 +129,20 @@ function Home() {
               placeholder="Task"
               id="taskName"
               className={styles.input}
+              onChange={(e) => setTaskName(e.target.value)}
             />
             <button
               id="add"
-              onClick={() => createTask()}
+              onClick={() => creatTask()}
               className={styles.button}
             >
               Add
             </button>
           </div>
-          <List />
         </div>
         <div className={styles.card}>
           <h1>My Lists</h1>
-          <List />
+          {listsDisplay}
         </div>
         <div className={styles.card}>
           <h1>Listes Partagés</h1>
