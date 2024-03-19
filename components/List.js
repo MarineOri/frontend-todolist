@@ -3,6 +3,8 @@ import Task from "./Task";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addList, deleteList } from "../reducers/lists";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 function List(props) {
   const user = useSelector((state) => state.user.value);
@@ -21,6 +23,8 @@ function List(props) {
       )}
 
       {/* <Task /> */}
+      <FontAwesomeIcon icon={faShareNodes} />
+      <FontAwesomeIcon icon={faTrashCan} className={styles.xmark} />
     </div>
   );
 }

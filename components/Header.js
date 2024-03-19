@@ -10,11 +10,13 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../reducers/user";
 import { deleteLists } from "../reducers/lists";
+import { deleteNewList } from "../reducers/newlist";
 import { Modal } from "antd";
 
 function Header() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
+
   const [date, setDate] = useState("2050-11-22T23:59:59");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [signUpUsername, setSignUpUsername] = useState("");
@@ -78,6 +80,12 @@ function Header() {
           setIsModalVisible(false);
         }
       });
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(deleteLists());
+    dispatch(deleteNewList());
   };
 
   const showModal = () => {
@@ -159,7 +167,7 @@ function Header() {
         />
         <FontAwesomeIcon
           icon={faRightFromBracket}
-          onClick={() => dispatch(logout()) && dispatch(deleteLists())}
+          onClick={() => handleLogout()}
         />
       </div>
       {isModalVisible && (

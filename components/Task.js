@@ -1,9 +1,9 @@
 import styles from "../styles/Mark.module.css";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-function Task() {
+function Task(props) {
   const [taskName, setTaskName] = useState("");
 
   const handleMark = () => {
@@ -42,19 +42,19 @@ function Task() {
         checked={props.completed}
         className={styles.completeCheckbox}
       /> */}
-      <text>props.name</text>
-      <input
+      <text>{props.name}</text>
+      {/* <input
         type="text"
         placeholder="New Task"
         id="taskName"
         onChange={(e) => setTaskName(e.target.value)}
         value={taskName}
         className={styles.addTask}
-      />
-      <button id="add" className={styles.button}>
+      /> */}
+      {/* <button id="add" className={styles.button}>
         Add
-      </button>
-      <FontAwesomeIcon icon={faShareNodes} />
+      </button> */}
+
       <FontAwesomeIcon icon={faTrashCan} className={styles.xmark} />
     </div>
   );

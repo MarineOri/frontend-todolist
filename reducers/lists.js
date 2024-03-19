@@ -17,6 +17,15 @@ export const listsSlice = createSlice({
     deleteLists: (state, action) => {
       state.value = [];
     },
+    completeTask: (state, action) => {
+      const taskIndex = state.value.findIndex(
+        (e) => e.id === action.payload.id
+      );
+      state.value[taskIndex].tasks.push(action.payload.task);
+    },
+    deleteTask: (state, action) => {
+      state.value = state.value.filter((e) => e.id !== action.payload);
+    },
   },
 });
 
