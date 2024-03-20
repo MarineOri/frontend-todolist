@@ -5,7 +5,7 @@ import Task from "./Task";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addList } from "../reducers/lists";
-import { addIdTtitle, addTask } from "../reducers/newlist";
+import { addIdTtitle, addTask, deleteNewList } from "../reducers/newlist";
 
 function Home() {
   const [listTitle, setListTitle] = useState("");
@@ -18,15 +18,6 @@ function Home() {
 
   /**affichage des listes de l'utilisateur à l'ouverture */
   useEffect(() => {
-    // user.token
-    //   ? fetch(`http://localhost:3000/lists/${user.id}`)
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         if (data.result) {
-    //           dispatch(addList(data.data));
-    //         }
-    //       })
-    //   : setListId("");
     user.token &&
       fetch(`http://localhost:3000/lists/${user.id}`)
         .then((response) => response.json())
@@ -84,7 +75,8 @@ function Home() {
         }
       });
   };
-  console.log(newlist);
+
+  /**créer une tache en base de donnée */
   const creatTask = () => {
     newlist.id &&
       fetch("http://localhost:3000/lists/newTask", {
@@ -102,6 +94,22 @@ function Home() {
             setTaskName("");
           }
         });
+  };
+
+  /**supprimer une liste */
+  const deleteList = () => {
+    fetch("http://localhost:3000/lists/deleteList", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        listId: newlist.id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("delete data", data);
+      });
+    dispatch(deleteNewList());
   };
 
   return (
@@ -152,6 +160,22 @@ function Home() {
                 </button>
               </div>
             ))}
+          <div>
+            <button
+              id="terminer"
+              className={styles.button}
+              // onClick={() => }
+            >
+              terminer
+            </button>
+            <button
+              id="supprimer"
+              className={styles.button}
+              onClick={() => deleteList()}
+            >
+              supprimer
+            </button>
+          </div>
         </div>
         <div className={styles.card}>
           <h1>My Lists</h1>
