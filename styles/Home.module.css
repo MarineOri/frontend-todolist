@@ -27,7 +27,6 @@
   color: black;
 }
 .containerAdd {
-  background-color: yellow;
   display: flex;
   flex-direction: column;
   height: 70%;

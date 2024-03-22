@@ -2,10 +2,13 @@ import styles from "../styles/Home.module.css";
 import Header from "./Header";
 import List from "./List";
 import Task from "./Task";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addList } from "../reducers/lists";
+import { addList, addManyList, completeList } from "../reducers/lists";
 import { addIdTtitle, addTask, deleteNewList } from "../reducers/newlist";
+import { deleteList } from "../reducers/lists";
 
 function Home() {
   const [listTitle, setListTitle] = useState("");
@@ -27,20 +30,58 @@ function Home() {
           }
         });
   }, [user]);
-  console.log("data list user", lists);
-  console.log("user", user);
+
+  useEffect(() => {
+    user.token &&
+      fetch(`http://localhost:3000/lists/share/${user.id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result) {
+            dispatch(addManyList(data.data));
+            console.log("data share", data.data);
+          }
+        });
+  }, [user]);
+
+  /**supprimer une liste */
+  const removeList = (list) => {
+    console.log;
+    dispatch(deleteList(list._id));
+    fetch("http://localhost:3000/lists/deleteList", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        listId: list._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("delete data", data);
+      });
+  };
 
   let tasksdisplay;
   const listsDisplay = lists.map((list, i) => {
     lists.tasks &&
       (tasksdisplay = lists.tasks.map((task, j) => {
+        console.log("list dans map", list);
         <Task key={j} {...task} />;
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className={styles.xmark}
+          onClick={() => removeList(list)}
+        />;
       }));
     return lists.length === 0 ? (
       <text>Pas de Listes</text>
     ) : list.tasks.length === 0 ? (
       <div>
         <List key={i} {...list} />
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className={styles.xmark}
+          onClick={() => removeList(list)}
+        />
         <text>Pas de tâches</text>
       </div>
     ) : (
@@ -96,8 +137,8 @@ function Home() {
         });
   };
 
-  /**supprimer une liste */
-  const deleteList = () => {
+  /**supprimer une liste en creation*/
+  const handledeleteNewList = () => {
     fetch("http://localhost:3000/lists/deleteList", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -109,6 +150,12 @@ function Home() {
       .then((data) => {
         console.log("delete data", data);
       });
+    dispatch(deleteNewList());
+  };
+
+  /**vaolider une nouvelle liste */
+  const handleValidateList = () => {
+    dispatch(completeList(newlist));
     dispatch(deleteNewList());
   };
 
@@ -164,14 +211,14 @@ function Home() {
             <button
               id="terminer"
               className={styles.button}
-              // onClick={() => }
+              onClick={() => handleValidateList()}
             >
               terminer
             </button>
             <button
               id="supprimer"
               className={styles.button}
-              onClick={() => deleteList()}
+              onClick={() => handledeleteNewList()}
             >
               supprimer
             </button>
