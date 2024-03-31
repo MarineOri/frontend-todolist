@@ -1,5 +1,6 @@
 import styles from "../styles/Home.module.css";
 import Header from "./Header";
+import Footer from "./Footer";
 import List from "./List";
 import Task from "./Task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -231,6 +232,7 @@ function Home() {
           {listsDisplay}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

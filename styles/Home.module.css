@@ -4,10 +4,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  min-height: 100vh;
   padding: 1rem;
   border: 1rem solid white;
   border-radius: 10px;
+  height: 75vh;
 }
 
 .card {
@@ -21,8 +21,8 @@
   border: thick double #0086ad;
   box-shadow: 10px 5px 5px #0086ad;
   border-radius: 20px;
-  width: 30%;
-  height: 30rem;
+  width: 45%;
+  /* height: 70%; */
   background-color: #daf8e3;
 }
 .title {

@@ -2,6 +2,7 @@
 
 .containerHeader {
   display: flex;
+  height: 13vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -13,75 +14,156 @@
 .logoContainer {
   width: 100vw;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0px 30px 0px 30px;
+  justify-content: space-between;
+  padding: 0px 100px 0px 100px;
 }
+
 .title {
-  font-size: 44px;
+  font-size: 54px;
   color: #97ebdb;
   font-family: "Ubuntu";
   text-shadow: 1px 1px 1px #000;
 }
 .img {
-  width: 50px;
+  width: 60px;
+  height: 60px;
 }
 
-/* .center {
-  display: flex;
-  flex-direction: column;
-} */
 .userSection {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   cursor: pointer;
-  width: 12vw;
-  font-size: 22px;
-}
-.userclose {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
-  cursor: pointer;
-  width: 12vw;
-
-}
-.userSection:hover {
-  opacity: 0.8;
 }
 .logoutSection {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+.logout {
+  color: #97ebdb;
+  width: 70px;
+  height: 40px;
+  cursor: pointer;
+}
+.logout:hover {
+  color: #005582;
+}
+.text {
+  color: #97ebdb;
+  font-size: large;
+}
 .user {
   color: #97ebdb;
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 40px;
 }
+.user:hover {
+  color: #005582;
+}
+
+/** Modal */
 .userContainer {
   display: flex;
+  justify-content: center;
   margin-bottom: 10px;
-  border-top: 0.5px lightgray solid;
-
+  border-top: 0.5px #97ebdb solid;
 }
-
-.xmark {
-  width: 100px;
-  height: 50px;
-}
-
 .registerSection {
   width: 250px;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+.xmark {
+  width: 40px;
+  height: 40px;
+  color: #0086ad;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+.titleRegister {
+  color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 30px;
+  font-weight: 500;
+}
+.errorMsg {
+  color: #005582;
   font-family: "Ubuntu";
   font-size: medium;
-  color: red;
+  text-shadow: 0.5px 1px 0.5px #97ebdb;
 }
-.user:hover {
-  color: #005582;
+/**formulaire*/
+.registerSection {
+  display: flex;
+  align-items: center;
+}
+.signupForm,
+.signinForm {
+  color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.inputUpUsername,
+.inputUpPass,
+.inputInUsername,
+.inputInPass {
+  width: 10rem;
+  height: 2rem;
+  background-color: rgba(218, 248, 227, 0.18);
+  border-radius: 15px;
+  /* outline: none; */
+  border: 1px solid #0086ad;
+}
+.signinForm input {
+  color: #00c2c7;
+}
+.signupForm input {
+  color: #00c2c7;
+}
+.inputUpUsername::placeholder,
+.inputUpPass::placeholder,
+.inputInUsername::placeholder,
+.inputInPass::placeholder {
+  width: 10rem;
+  height: 2rem;
+  color: #00c2c7;
+  letter-spacing: 0.5px;
+  font-family: "Ubuntu";
+  box-shadow: 10px 5px 5px #0086ad;
+  font-size: 14px;
+  padding-left: 5px;
+  outline: none;
+}
+.inputInPass:hover, .inputInUsername:hover, .inputUpPass:hover, .inputUpUsername:hover {
+  appearance: none;
+  background-color: #daf8e3;
+  color: #0086ad;
+  border: 1px solid #daf8e3;
+}
+.inputInPass:focus, .inputInUsername:focus, .inputUpPass:focus, .inputUpUsername:focus {
+  background-color: #daf8e3;
+  color: #0086ad;
+}
+.btn {
+  width: 5rem;
+  height: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #00c2c7;
+  background-color: #0086ad;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  color: #97ebdb;
+  font-family: "Ubuntu";
+  font-weight: bold;
+}
+.label {
+  text-align: left;
+  font-size: 15px;
+  font-family: "Ubuntu";
 }

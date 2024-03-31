@@ -1,12 +1,11 @@
 import styles from "../styles/Header.module.css";
-import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faXmark,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../reducers/user";
 import { deleteLists } from "../reducers/lists";
@@ -17,20 +16,17 @@ function Header() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  const [date, setDate] = useState("2050-11-22T23:59:59");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [signUpUsername, setSignUpUsername] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
   const [signInUsername, setSignInUsername] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsgUp, setErrorMsgUp] = useState("");
+  const [errorMsgIn, setErrorMsgIn] = useState("");
 
-  useEffect(() => {
-    setDate(new Date());
-  }, []);
-
-  const handleSignup = () => {
-    usernameValidity(signUpUsername) &&
+  const handleSignup = (e) => {
+    e.preventDefault();
+    usernameUpValidity(signUpUsername) &&
       fetch("http://localhost:3000/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,14 +50,15 @@ function Header() {
             setSignUpPassword("");
             setIsModalVisible(false);
           } else {
-            setErrorMsg(data.error);
+            setErrorMsgUp(data.error);
           }
-        })
-        .catch((error) => console.log(error));
+        });
+    // .catch((error) => console.log(error));
   };
 
-  const handleSignin = () => {
-    usernameValidity(signInUsername) &&
+  const handleSignin = (e) => {
+    e.preventDefault();
+    usernameInValidity(signInUsername) &&
       fetch("http://localhost:3000/users/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -85,10 +82,10 @@ function Header() {
             setSignInPassword("");
             setIsModalVisible(false);
           } else {
-            setErrorMsg(data.error);
+            setErrorMsgIn(data.error);
           }
-        })
-        .catch((error) => console.log(error));
+        });
+    // .catch((error) => console.log(error));
   };
 
   const handleLogout = () => {
@@ -99,140 +96,144 @@ function Header() {
 
   const showModal = () => {
     setIsModalVisible(!isModalVisible);
-    setErrorMsg("");
+    setErrorMsgIn("");
+    setErrorMsgUp("");
     setSignInPassword("");
     setSignInUsername("");
     setSignUpPassword("");
     setSignUpUsername("");
   };
 
-  //username
-  const usernameValidity = (username) => {
-    const regex = /^[a-zA-Z0-9-çàéèêîô\s,.'-]{3,}$/; // accepte 3 caractères minimum
-    if (username === "") {
-      setErrorMsg("Le username est vide !");
-      return;
-    } else if (regex.test(username) === false) {
-      setErrorMsg("Pseudo non valide (min. 3 caractères)");
+  const usernameUpValidity = (username) => {
+    const regex = /^[a-zA-Z0-9-çàéèêîô\s,.'-]{3,}$/;
+    if (regex.test(username) === false) {
+      setErrorMsgUp("Minimum 3 letters");
       return;
     } else {
-      setErrorMsg("");
+      setErrorMsgIn("");
+      setErrorMsgUp("");
       return true;
     }
   };
 
-  let modalConnection;
-  if (!user.token) {
-    modalConnection = (
-      <div className={styles.userContainer}>
-        <FontAwesomeIcon
-          icon={faXmark}
-          onClick={() => showModal()}
-          className={styles.xmark}
-        />
-        <div className={styles.registerSection}>
-          <p>S'inscrire</p>
-          <label htmlFor="Username">Username</label>
+  const usernameInValidity = (username) => {
+    const regex = /^[a-zA-Z0-9-çàéèêîô\s,.'-]{3,}$/;
+    if (regex.test(username) === false) {
+      username === signInUsername && setErrorMsgIn("Minimum 3 letters");
+      return;
+    } else {
+      setErrorMsgIn("");
+      setErrorMsgUp("");
+      return true;
+    }
+  };
+
+  let modalConnection = (
+    <div className={styles.userContainer}>
+      <div className={styles.registerSection}>
+        <p className={styles.titleRegister}>S'inscrire</p>
+        <form onSubmit={handleSignin} className={styles.signupForm}>
+          <label htmlFor="Username" className={styles.label}>Username</label>
           <input
+            className={styles.inputUpUsername}
             type="text"
-            placeholder="Username"
+            placeholder="Username..."
             id="signUpUsername"
             onChange={(e) => {
               setSignUpUsername(e.target.value);
-              setErrorMsg("");
+              setErrorMsgUp("");
             }}
             value={signUpUsername}
           />
-          <label htmlFor="Password">Password</label>
+          <label htmlFor="Password" className={styles.label}>Password</label>
           <input
+            className={styles.inputUpPass}
             type="password"
-            placeholder="Password"
+            placeholder="Password..."
             id="signUpPassword"
             onChange={(e) => {
               setSignUpPassword(e.target.value);
-              setErrorMsg("");
+              setErrorMsgUp("");
             }}
             value={signUpPassword}
           />
-          <p className={styles.errorMsg}>{errorMsg}</p>
-          <button id="register" onClick={() => handleSignup()}>
-            Register
+          <p className={styles.errorMsg}>{errorMsgUp}</p>
+          <button
+            id="register"
+            onClick={(e) => handleSignup(e)}
+            className={styles.btn}
+          >
+            OK
           </button>
-        </div>
-        <div className={styles.registerSection}>
-          <p>Se connecter</p>
-          <label htmlFor="Username">Username</label>
+        </form>
+      </div>
+      <FontAwesomeIcon
+        icon={faXmark}
+        onClick={() => showModal()}
+        className={styles.xmark}
+      />
+      <div className={styles.registerSection}>
+        <p className={styles.titleRegister}>Se connecter</p>
+        <form onSubmit={handleSignin} className={styles.signinForm}>
+          <label htmlFor="Username" className={styles.label}>Username</label>
           <input
+            className={styles.inputInUsername}
             type="text"
-            placeholder="Username"
+            placeholder="Username..."
             id="signInUsername"
             onChange={(e) => {
               setSignInUsername(e.target.value);
-              setErrorMsg("");
+              setErrorMsgIn("");
             }}
             value={signInUsername}
           />
-          <label htmlFor="Password">Password</label>
+          <label htmlFor="Password" className={styles.label}>Password</label>
           <input
+            className={styles.inputInPass}
             type="password"
-            placeholder="Password"
+            placeholder="Password..."
             id="signInPassword"
             onChange={(e) => {
               setSignInPassword(e.target.value);
-              setErrorMsg("");
+              setErrorMsgIn("");
             }}
             value={signInPassword}
-          />
-          <p className={styles.errorMsg}>{errorMsg}</p>
-          <button id="connection" onClick={() => handleSignin()}>
-            Connect
+          ></input>
+          <p className={styles.errorMsg}>{errorMsgIn}</p>
+          <button id="connection" onClick={(e) => handleSignin(e)} className={styles.btn}>
+            OK
           </button>
-        </div>
+        </form>
       </div>
-    );
-  }
-
-  let userSection;
-  user.token
-    ? (userSection = (
-        <div className={styles.logoutSection}>
-          <FontAwesomeIcon
-            icon={faRightFromBracket}
-            onClick={() => handleLogout()}
-          />
-        </div>
-      ))
-    : isModalVisible
-    ? (userSection = (
-        <div className={styles.userclose}>
-          <FontAwesomeIcon icon={faXmark} className={styles.xmark} />
-        </div>
-      ))
-    : (userSection = (
-        <div className={styles.userSection}>
-          <FontAwesomeIcon
-            onClick={showModal}
-            icon={faUser}
-            className={styles.user}
-          />
-        </div>
-      ));
+    </div>
+  );
 
   return (
     <header className={styles.containerHeader}>
       <div className={styles.logoContainer}>
         <img className={styles.img} src="./logo2.png" alt="Logo" />
         <h3 className={styles.title}>To do list</h3>
-        {userSection}
+
+        {user.token ? (
+          <div className={styles.logoutSection}>
+            <FontAwesomeIcon
+              icon={faRightFromBracket}
+              onClick={() => handleLogout()}
+              className={styles.logout}
+            />
+            <text className={styles.text}>Bienvenue {user.username}!</text>
+          </div>
+        ) : (
+          <div className={styles.userSection}>
+            <FontAwesomeIcon
+              onClick={showModal}
+              icon={faUser}
+              className={styles.user}
+            />
+          </div>
+        )}
       </div>
-      {/* <div className={styles.center}>
-        <h1 className={styles.title}>Bienvenue {user.username}!</h1>
-        <Moment
-          className={styles.date}
-          date={date}
-          format="MMM Do YYYY, h:mm:ss a"
-        />
-      </div> */}
+
       {isModalVisible && (
         <div id="react-modals">
           <Modal
