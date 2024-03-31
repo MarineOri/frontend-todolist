@@ -61,11 +61,13 @@ function Home() {
   };
 
   let tasksdisplay;
-  const listsDisplay = lists.map((list, i) => {
+  const listsDisplay = lists.map((list, i, j) => {
+    console.log('i',i);
     lists.tasks &&
-      (tasksdisplay = lists.tasks.map((task, j) => {
+      (tasksdisplay = lists.tasks.map((task, k, l) => {
+        console.log('j',j);
         console.log("list dans map", list);
-        <Task key={j} {...task} />;
+        <Task key={k} {...task} />;
         <FontAwesomeIcon
           icon={faTrashCan}
           className={styles.xmark}
@@ -86,7 +88,7 @@ function Home() {
       </div>
     ) : (
       <div>
-        <List key={i} {...list} />
+        <List key={j} {...list} />
         {tasksdisplay}
       </div>
     );
@@ -211,7 +213,7 @@ function Home() {
             <button
               id="terminer"
               className={styles.button}
-              onClick={() => handleValidateList()}
+              onClick={() => user.token && handleValidateList()}
             >
               terminer
             </button>
@@ -227,9 +229,6 @@ function Home() {
         <div className={styles.card}>
           <h1>My Lists</h1>
           {listsDisplay}
-        </div>
-        <div className={styles.card}>
-          <h1>Listes Partagés</h1>
         </div>
       </main>
     </div>
