@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import List from "./List";
 import Task from "./Task";
+import ShowList from "./ShowList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -13,11 +14,11 @@ import { deleteList } from "../reducers/lists";
 
 function Home() {
   const [listTitle, setListTitle] = useState("");
-  // const [listId, setListId] = useState("");
   const [taskName, setTaskName] = useState("");
   const user = useSelector((state) => state.user.value);
   const lists = useSelector((state) => state.lists.value);
   const newlist = useSelector((state) => state.newlist.value);
+  // const showList = useSelector((state) => state.showList.value);
   const dispatch = useDispatch();
 
   /**affichage des listes de l'utilisateur à l'ouverture */
@@ -46,7 +47,6 @@ function Home() {
 
   /**supprimer une liste */
   const removeList = (list) => {
-    console.log;
     dispatch(deleteList(list._id));
     fetch("http://localhost:3000/lists/deleteList", {
       method: "DELETE",
@@ -58,71 +58,76 @@ function Home() {
       .then((response) => response.json())
       .then((data) => {
         console.log("delete data", data);
+        dispatch(deleteList(list._id));
       });
   };
 
+  console.log('lists', lists);
   let tasksdisplay;
-  const listsDisplay = lists.map((list, i, j) => {
-    console.log('i',i);
-    lists.tasks &&
-      (tasksdisplay = lists.tasks.map((task, k, l) => {
-        console.log('j',j);
-        console.log("list dans map", list);
-        <Task key={k} {...task} />;
-        <FontAwesomeIcon
-          icon={faTrashCan}
-          className={styles.xmark}
-          onClick={() => removeList(list)}
-        />;
-      }));
-    return lists.length === 0 ? (
-      <text>Pas de Listes</text>
-    ) : list.tasks.length === 0 ? (
-      <div>
-        <List key={i} {...list} />
-        <FontAwesomeIcon
-          icon={faTrashCan}
-          className={styles.xmark}
-          onClick={() => removeList(list)}
-        />
-        <text>Pas de tâches</text>
-      </div>
-    ) : (
-      <div>
-        <List key={j} {...list} />
-        {tasksdisplay}
-      </div>
-    );
-  });
+  let listsDisplay;
+  lists && (listsDisplay = lists.map((list, i) => {
+    return <List key={i} {...list} />
+  }));
+  //   lists.tasks &&
+  //     (tasksdisplay = lists.tasks.map((task, k, l) => {
+  //       console.log("j", j);
+  //       console.log("list dans map", list);
+  //       <Task key={k} {...task} completed={false} />;
+  //       <FontAwesomeIcon
+  //         icon={faTrashCan}
+  //         className={styles.xmark}
+  //         onClick={() => removeList(list)}
+  //       />;
+  //     }));
+  //    : list.tasks.length === 0 ? (
+  //     <div>
+  //       <List key={i} {...list} />
+  //       <FontAwesomeIcon
+  //         icon={faTrashCan}
+  //         className={styles.xmark}
+  //         onClick={() => removeList(list)}
+  //       />
+  //       <p>Pas de tâches</p>
+  //     </div>
+  //   ) : (
+  //     <div>
+  //       <List key={j} {...list} />
+  //       {tasksdisplay}
+  //     </div>
+  //   );
+  // });
 
-  const newListTasks = newlist.tasks.map((task, i) => {
+  /**afficher les taches de la nouvelle liste */
+const newListTasks = newlist.tasks.map((task, i) => {
     return <Task key={i} {...task} />;
   });
 
   /**créer une liste en base de données */
   const creatList = () => {
+    listTitle &&
     fetch("http://localhost:3000/lists/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: listTitle,
-        tasks: [],
         userId: user.id,
-        access: [],
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
+          console.log('test')
           dispatch(addIdTtitle({ id: data.newDoc._id, title: listTitle }));
           setListTitle("");
         }
       });
+      console.log('newlist', newlist)
   };
 
   /**créer une tache en base de donnée */
-  const creatTask = () => {
-    newlist.id &&
+  const creatTask = (e) => {
+    e.preventDefault();
+    newlist.id && taskName &&
       fetch("http://localhost:3000/lists/newTask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -151,9 +156,9 @@ function Home() {
     })
       .then((response) => response.json())
       .then((data) => {
+        dispatch(deleteNewList());
         console.log("delete data", data);
       });
-    dispatch(deleteNewList());
   };
 
   /**vaolider une nouvelle liste */
@@ -161,6 +166,8 @@ function Home() {
     dispatch(completeList(newlist));
     dispatch(deleteNewList());
   };
+
+  const handleEye = () => {};
 
   return (
     <div className={styles.container}>
@@ -170,66 +177,86 @@ function Home() {
           <h1 className={styles.title}>Creat your list</h1>
           {user.token &&
             (newlist.title ? (
-              <div className={styles.containerAdd}>
-                <h4>liste : {newlist.title}</h4>
-                <h4>Add a task</h4>
-                <input
-                  type="text"
-                  placeholder="add a task"
-                  value={taskName}
-                  className={styles.input}
-                  onChange={(e) => setTaskName(e.target.value)}
-                />
-                <button
-                  id="add"
-                  onClick={() => creatTask()}
-                  className={styles.button}
-                >
-                  Add
-                </button>
-                {newListTasks}
+              <div className={styles.containerNew}>
+                <p className={styles.newList}>
+                  Current list : {newlist.title}
+                </p>
+
+                <form className={styles.addListForm}>
+                  <label htmlFor="Add a task" className={styles.label}>
+                    Add a task
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="add a task"
+                    value={taskName}
+                    className={styles.input}
+                    onChange={(e) => setTaskName(e.target.value)}
+                  />
+                  <button
+                    id="add"
+                    onClick={(e) => creatTask(e)}
+                    className={styles.btn}
+                  >
+                    Add
+                  </button>
+                </form>
+                <div className={styles.tasksNew}>
+                {newListTasks.reverse()}
+                </div>
               </div>
             ) : (
               <div className={styles.containerAdd}>
-                <h5>Add a List</h5>
                 <div className={styles.inputContainer}>
-                  <input
-                    onChange={(e) => setListTitle(e.target.value)}
-                    className={styles.input}
-                    value={listTitle}
-                    type="text"
-                    placeholder="add a list"
-                  />
+                  <form
+                    className={styles.addListForm}
+                  >
+                    <label htmlFor="Add a List" className={styles.label}>
+                      Add a List
+                    </label>
+                    <input
+                      onChange={(e) => setListTitle(e.target.value)}
+                      className={styles.input}
+                      value={listTitle}
+                      type="text"
+                      placeholder="add a list"
+                    ></input>
+                  </form>
+                  <button
+                    id="add"
+                    className={styles.btn}
+                    onClick={() => creatList()}
+                  >
+                    Add
+                  </button>
                 </div>
-                <button
-                  id="add"
-                  className={styles.button}
-                  onClick={() => creatList()}
-                >
-                  Add
-                </button>
               </div>
             ))}
-          <div>
-            <button
-              id="terminer"
-              className={styles.button}
-              onClick={() => user.token && handleValidateList()}
-            >
-              terminer
-            </button>
-            <button
-              id="supprimer"
-              className={styles.button}
-              onClick={() => handledeleteNewList()}
-            >
-              supprimer
-            </button>
-          </div>
+          {newlist.title && (
+            <div className={styles.btnDeleteCancel}>
+              <button
+                id="ok"
+                className={styles.btn}
+                onClick={() => user.token && handleValidateList()}
+              >
+                OK
+              </button>
+              <button
+                id="cancel"
+                className={styles.btn}
+                onClick={() => handledeleteNewList()}
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
         <div className={styles.card}>
-          <h1>My Lists</h1>
-          {listsDisplay}
+          <h1 className={styles.title}>My Lists</h1>
+          <div className={styles.containerMyLists}>
+            <div className={styles.myList}>{listsDisplay}</div>
+            <div className={styles.showList}><ShowList/></div>
+          </div>
         </div>
       </main>
       <Footer />

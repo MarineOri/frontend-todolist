@@ -7,7 +7,7 @@ function Footer() {
 
   useEffect(() => {
     setDate(new Date());
-  }, [date]);
+  }, []);
 
   return (
     <div className={styles.footerContainer}>

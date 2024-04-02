@@ -9,7 +9,7 @@
   background-color: #0086ad;
   border-bottom: 2px #0086ad solid;
   box-shadow: 0px 5px 5px #0086ad;
-  margin-bottom: 15px;
+  margin-bottom: 17px;
 }
 .logoContainer {
   width: 100vw;
@@ -44,7 +44,7 @@
 }
 .logout {
   color: #97ebdb;
-  width: 70px;
+  width: 60px;
   height: 40px;
   cursor: pointer;
 }
@@ -53,7 +53,8 @@
 }
 .text {
   color: #97ebdb;
-  font-size: large;
+  font-size: 20px;
+  margin: 0;
 }
 .user {
   color: #97ebdb;
@@ -93,7 +94,9 @@
   color: #005582;
   font-family: "Ubuntu";
   font-size: medium;
-  text-shadow: 0.5px 1px 0.5px #97ebdb;
+  filter: drop-shadow(0 0 0.4rem red);
+  font-size: 15px;
+  /* text-shadow: 0.5px 0.5px 0.5px red; */
 }
 /**formulaire*/
 .registerSection {
@@ -118,7 +121,7 @@
   height: 2rem;
   background-color: rgba(218, 248, 227, 0.18);
   border-radius: 15px;
-  /* outline: none; */
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
   border: 1px solid #0086ad;
 }
 .signinForm input {

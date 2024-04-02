@@ -20,7 +20,7 @@ export const newlistSlice = createSlice({
     },
     deleteTask: (state, action) => {
       state.value.tasks = state.value.tasks.filter(
-        (e) => e.id !== action.payload
+        (e) => e._id !== action.payload
       );
     },
   },

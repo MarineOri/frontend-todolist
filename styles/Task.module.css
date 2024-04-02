@@ -1,0 +1,35 @@
+.containerTask {
+  height: 25px;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 15px;
+  /* border: 1px solid #0086ad; */
+  box-shadow: 1px 1px 8px #0086ad;
+  padding: 0 40px 0 20px;
+  
+}
+.container {
+  cursor: pointer;
+  /* background-color: #97ebdb; */
+}
+
+.container input {
+  display: none;
+}
+
+.container svg {
+  overflow: visible;
+}
+.addTask {
+  width: 70%;
+}
+.checkedBox {
+  display: flex;
+  gap: 20px;
+}

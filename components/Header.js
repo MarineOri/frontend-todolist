@@ -11,6 +11,7 @@ import { login, logout } from "../reducers/user";
 import { deleteLists } from "../reducers/lists";
 import { deleteNewList } from "../reducers/newlist";
 import { Modal } from "antd";
+import { deleteShowList } from "../reducers/showList";
 
 function Header() {
   const dispatch = useDispatch();
@@ -70,7 +71,6 @@ function Header() {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            console.log(data);
             dispatch(
               login({
                 username: signInUsername,
@@ -92,6 +92,7 @@ function Header() {
     dispatch(logout());
     dispatch(deleteLists());
     dispatch(deleteNewList());
+    dispatch(deleteShowList())
   };
 
   const showModal = () => {
@@ -133,7 +134,9 @@ function Header() {
       <div className={styles.registerSection}>
         <p className={styles.titleRegister}>S'inscrire</p>
         <form onSubmit={handleSignin} className={styles.signupForm}>
-          <label htmlFor="Username" className={styles.label}>Username</label>
+          <label htmlFor="Username" className={styles.label}>
+            Username
+          </label>
           <input
             className={styles.inputUpUsername}
             type="text"
@@ -145,7 +148,9 @@ function Header() {
             }}
             value={signUpUsername}
           />
-          <label htmlFor="Password" className={styles.label}>Password</label>
+          <label htmlFor="Password" className={styles.label}>
+            Password
+          </label>
           <input
             className={styles.inputUpPass}
             type="password"
@@ -175,7 +180,9 @@ function Header() {
       <div className={styles.registerSection}>
         <p className={styles.titleRegister}>Se connecter</p>
         <form onSubmit={handleSignin} className={styles.signinForm}>
-          <label htmlFor="Username" className={styles.label}>Username</label>
+          <label htmlFor="Username" className={styles.label}>
+            Username
+          </label>
           <input
             className={styles.inputInUsername}
             type="text"
@@ -187,7 +194,9 @@ function Header() {
             }}
             value={signInUsername}
           />
-          <label htmlFor="Password" className={styles.label}>Password</label>
+          <label htmlFor="Password" className={styles.label}>
+            Password
+          </label>
           <input
             className={styles.inputInPass}
             type="password"
@@ -200,7 +209,11 @@ function Header() {
             value={signInPassword}
           ></input>
           <p className={styles.errorMsg}>{errorMsgIn}</p>
-          <button id="connection" onClick={(e) => handleSignin(e)} className={styles.btn}>
+          <button
+            id="connection"
+            onClick={(e) => handleSignin(e)}
+            className={styles.btn}
+          >
             OK
           </button>
         </form>
@@ -221,7 +234,7 @@ function Header() {
               onClick={() => handleLogout()}
               className={styles.logout}
             />
-            <text className={styles.text}>Bienvenue {user.username}!</text>
+            <p className={styles.text}>Bienvenue {user.username}!</p>
           </div>
         ) : (
           <div className={styles.userSection}>

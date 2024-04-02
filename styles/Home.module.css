@@ -9,9 +9,7 @@
   border-radius: 10px;
   height: 75vh;
 }
-
 .card {
-  overflow-x: auto;
   position: relative;
   float: left;
   display: flex;
@@ -22,17 +20,164 @@
   box-shadow: 10px 5px 5px #0086ad;
   border-radius: 20px;
   width: 45%;
-  /* height: 70%; */
   background-color: #daf8e3;
 }
 .title {
-  color: #0086ad;
+  color: #005582;
   font-family: Ubuntu;
 }
+.newList {
+  font-family: Ubuntu;
+  color: #00c2c7;
+  font-size: 20px;
+  margin: 10px;
+}
+.inputContainer {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+/**input*/
+.addListForm {
+  /* color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 20px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.addTaskForm {
+  color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.input {
+  width: 10rem;
+  height: 2rem;
+  border-radius: 15px;
+  background-color: #daf8e3;
+  border: 1px solid #0086ad;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(0 0 0.5rem #97ebdb);
+}
+.label {
+  color: #0086ad;
+  font-family: "Ubuntu";
+  font-size: 18px;
+  border-bottom: 1px solid #0086ad;
+  border-bottom-right-radius: 5px;
+}
+.addListForm input {
+  color: #00c2c7;
+  padding-left: 10px;
+}
+.input::placeholder {
+  width: 10rem;
+  height: 2rem;
+  color: #00c2c7;
+  letter-spacing: 0.5px;
+  font-family: "Ubuntu";
+  box-shadow: 10px 5px 5px #0086ad;
+  font-size: 14px;
+  padding-left: 5px;
+  outline: none;
+}
+.input:hover {
+  appearance: none;
+  color: #0086ad;
+  border: 1px solid #daf8e3;
+}
+.input:focus {
+  background-color: #97ebdb;
+  color: #0086ad;
+  font-family: "ubuntu";
+  padding-left: 10px;
+}
+/**Button*/
 .containerAdd {
   display: flex;
   flex-direction: column;
+  width: 90%;
   height: 70%;
-  width: 100%;
+  margin-bottom: 10px;
   align-items: center;
+  justify-content: flex-start;
+}
+.containerNew {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: 70%;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid #97ebdb;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(0 0 0.5rem #97ebdb);
+  gap: 10px;
+}
+.tasksNew {
+  display: flex;
+  flex-direction: column;
+gap:10px;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.btn {
+  width: 5rem;
+  height: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #00c2c7;
+  background-color: #0086ad;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  color: #97ebdb;
+  font-family: "Ubuntu";
+  font-weight: bold;
+}
+.btnDeleteCancel {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+/**My LISTS*/
+.containerMyLists {
+  display: flex;
+  width: 90%;
+  height: 100%;
+ }
+ .tasksNew {
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  height: 100%;
+  padding: 5px 0 5px 0;
+ }
+.myList {
+  width:50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/**Show List*/
+.showList {
+  width: 50%;
+  height: 100%;
+  display: flex;
+
+
 }

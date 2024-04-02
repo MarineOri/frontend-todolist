@@ -2,34 +2,43 @@ import styles from "../styles/List.module.css";
 import Task from "./Task";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addList, deleteList } from "../reducers/lists";
+import { addShowList } from "../reducers/showList";
+import { deleteList } from "../reducers/lists";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShareNodes, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShareNodes,
+  faXmark,
+  faEye,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "antd";
 
 function List(props) {
   const user = useSelector((state) => state.user.value);
   const lists = useSelector((state) => state.lists.value);
+  const showList = useSelector((state) => state.showList.value);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [usersShare, setUsersShare] = useState("");
   const dispatch = useDispatch();
 
-  // /**supprimer une liste */
-  // const deleteList = () => {
-  //   dispatch(deleteList(props._id));
-  //   fetch("http://localhost:3000/lists/deleteList", {
-  //     method: "DELETE",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       listId: props._id,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("delete data", data);
-  //     });
-  // };
+  /**supprimer une liste */
+  const handledeleteList = () => {
+    dispatch(deleteList(props._id));
+    fetch("http://localhost:3000/lists/deleteList", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        listId: props._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("delete data", data);
+        dispatch(deleteList(props._id))
+      });
+  };
 
+  //*afficher tous les utilisateurs sur la modale
   const showModal = () => {
     setIsModalVisible(!isModalVisible);
     fetch("http://localhost:3000/users")
@@ -40,7 +49,6 @@ function List(props) {
         }
       });
   };
-  console.log("usersShare", usersShare);
   let usersDisplay;
   usersShare &&
     (usersDisplay = usersShare.map((e) => {
@@ -53,7 +61,7 @@ function List(props) {
         </div>
       );
     }));
-
+  //*La modale
   let modalChoice = (
     <div className={styles.userContainer}>
       <FontAwesomeIcon
@@ -68,7 +76,7 @@ function List(props) {
     </div>
   );
 
-  /**partager une liste */
+  //*partager une liste
   const handleShare = (id) => {
     showModal();
     fetch("http://localhost:3000/lists/share", {
@@ -85,19 +93,34 @@ function List(props) {
       });
   };
 
+  //*afficher les détails d'une liste
+  const handleEye = () => {
+    const showList = lists.find((list) => list._id === props._id);
+    console.log('variable', showList);
+    dispatch(addShowList({id: showList._id, title: showList.title, tasks: showList.tasks }));
+  };
+console.log('show', showList)
   return (
     <div className={styles.containerList}>
-      <h5>{props.title}</h5>
-      {props.tasks.length ? (
-        <div>
-          <text> 0 taches réalisés sur {props.tasks.length}</text>
-        </div>
-      ) : (
-        <text> pas de tâches pour cette liste</text>
-      )}
-
-      {/* <Task /> */}
-      <FontAwesomeIcon icon={faShareNodes} onClick={showModal} />
+      <p className={styles.text}>{props.title}</p>
+      {/* <p className={styles.text}>{props.tasks.length} tasks</p> */}
+      <div className={styles.containerIcon}>
+        <FontAwesomeIcon
+          icon={faShareNodes}
+          onClick={showModal}
+          className={styles.icon}
+        />
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className={styles.icon}
+          onClick={() => handledeleteList()}
+        />
+        <FontAwesomeIcon
+          icon={faEye}
+          className={styles.icon}
+          onClick={() => handleEye()}
+        />
+      </div>
       {isModalVisible && (
         <div id="react-modals">
           <Modal
