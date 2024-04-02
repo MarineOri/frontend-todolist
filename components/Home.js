@@ -8,15 +8,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareNodes, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addList, addManyList, completeList } from "../reducers/lists";
-import { addIdTtitle, addTask, deleteNewList } from "../reducers/newlist";
+import { addList, addShare, completeList } from "../reducers/lists";
+import { addIdTtitle, addTask, deleteNewList, deleteNewTask, deleteTaskNew } from "../reducers/newlist";
 import { deleteList } from "../reducers/lists";
 
 function Home() {
   const [listTitle, setListTitle] = useState("");
   const [taskName, setTaskName] = useState("");
   const user = useSelector((state) => state.user.value);
-  const lists = useSelector((state) => state.lists.value);
+  const lists = useSelector((state) => state.lists.value.lists);
+  const share = useSelector((state) => state.lists.value.share);
   const newlist = useSelector((state) => state.newlist.value);
   // const showList = useSelector((state) => state.showList.value);
   const dispatch = useDispatch();
@@ -39,12 +40,12 @@ function Home() {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            dispatch(addManyList(data.data));
+            dispatch(addShare(data.data));
             console.log("data share", data.data);
           }
         });
   }, [user]);
-
+console.log('lists',lists)
   /**supprimer une liste */
   const removeList = (list) => {
     dispatch(deleteList(list._id));
@@ -62,44 +63,22 @@ function Home() {
       });
   };
 
-  console.log('lists', lists);
-  let tasksdisplay;
+  
   let listsDisplay;
   lists && (listsDisplay = lists.map((list, i) => {
     return <List key={i} {...list} />
   }));
-  //   lists.tasks &&
-  //     (tasksdisplay = lists.tasks.map((task, k, l) => {
-  //       console.log("j", j);
-  //       console.log("list dans map", list);
-  //       <Task key={k} {...task} completed={false} />;
-  //       <FontAwesomeIcon
-  //         icon={faTrashCan}
-  //         className={styles.xmark}
-  //         onClick={() => removeList(list)}
-  //       />;
-  //     }));
-  //    : list.tasks.length === 0 ? (
-  //     <div>
-  //       <List key={i} {...list} />
-  //       <FontAwesomeIcon
-  //         icon={faTrashCan}
-  //         className={styles.xmark}
-  //         onClick={() => removeList(list)}
-  //       />
-  //       <p>Pas de tâches</p>
-  //     </div>
-  //   ) : (
-  //     <div>
-  //       <List key={j} {...list} />
-  //       {tasksdisplay}
-  //     </div>
-  //   );
-  // });
+  let shareDisplay;
+share && (shareDisplay = share.map((list, i) => {
+    return <List key={i} {...list} />
+  }));
 
+  const deleteTask = (idTask) => {
+    dispatch(deleteTaskNew(idTask));
+  };
   /**afficher les taches de la nouvelle liste */
 const newListTasks = newlist.tasks.map((task, i) => {
-    return <Task key={i} {...task} />;
+    return <Task key={i} {...task} deleteTask={deleteTask}/>;
   });
 
   /**créer une liste en base de données */
@@ -116,7 +95,6 @@ const newListTasks = newlist.tasks.map((task, i) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          console.log('test')
           dispatch(addIdTtitle({ id: data.newDoc._id, title: listTitle }));
           setListTitle("");
         }
@@ -161,19 +139,18 @@ const newListTasks = newlist.tasks.map((task, i) => {
       });
   };
 
+
   /**vaolider une nouvelle liste */
   const handleValidateList = () => {
     dispatch(completeList(newlist));
     dispatch(deleteNewList());
   };
 
-  const handleEye = () => {};
-
   return (
     <div className={styles.container}>
       <Header />
       <main className={styles.main}>
-        <div className={styles.card}>
+        <div className={styles.cardLeft}>
           <h1 className={styles.title}>Creat your list</h1>
           {user.token &&
             (newlist.title ? (
@@ -251,10 +228,10 @@ const newListTasks = newlist.tasks.map((task, i) => {
             </div>
           )}
         </div>
-        <div className={styles.card}>
+        <div className={styles.cardRight}>
           <h1 className={styles.title}>My Lists</h1>
           <div className={styles.containerMyLists}>
-            <div className={styles.myList}>{listsDisplay}</div>
+            <div className={styles.myList}>{listsDisplay}{shareDisplay}</div>
             <div className={styles.showList}><ShowList/></div>
           </div>
         </div>

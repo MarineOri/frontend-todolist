@@ -9,7 +9,7 @@
   border-radius: 10px;
   height: 75vh;
 }
-.card {
+.cardLeft {
   position: relative;
   float: left;
   display: flex;
@@ -19,7 +19,7 @@
   border: thick double #0086ad;
   box-shadow: 10px 5px 5px #0086ad;
   border-radius: 20px;
-  width: 45%;
+  width: 35%;
   background-color: #daf8e3;
 }
 .title {
@@ -129,7 +129,7 @@
 .tasksNew {
   display: flex;
   flex-direction: column;
-gap:10px;
+  gap: 10px;
   align-items: center;
   width: 100%;
   overflow-x: auto;
@@ -154,10 +154,24 @@ gap:10px;
   gap: 20px;
 }
 /**My LISTS*/
+.cardRight {
+  position: relative;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: thick double #0086ad;
+  box-shadow: 10px 5px 5px #0086ad;
+  border-radius: 20px;
+  width:60%;
+  background-color: #daf8e3;
+}
 .containerMyLists {
   display: flex;
-  width: 90%;
-  height: 100%;
+  width: 95%;
+  height: 90%;
+  gap: 15px;
  }
  .tasksNew {
   overflow-x: auto;
@@ -167,17 +181,21 @@ gap:10px;
   padding: 5px 0 5px 0;
  }
 .myList {
-  width:50%;
-  height: 100%;
+  width:45%;
+  height: 85%;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 /**Show List*/
 .showList {
-  width: 50%;
-  height: 100%;
+  width: 60%;
+  height: 85%;
   display: flex;
-
-
+  border: 1px solid #97ebdb;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(0 0 0.5rem #97ebdb);
 }

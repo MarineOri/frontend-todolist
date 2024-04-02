@@ -18,7 +18,7 @@ export const newlistSlice = createSlice({
     addTask: (state, action) => {
       state.value.tasks.push(action.payload);
     },
-    deleteTask: (state, action) => {
+    deleteTaskNew: (state, action) => {
       state.value.tasks = state.value.tasks.filter(
         (e) => e._id !== action.payload
       );
@@ -26,6 +26,6 @@ export const newlistSlice = createSlice({
   },
 });
 
-export const { addIdTtitle, deleteNewList, addTask, deleteTask } =
+export const { addIdTtitle, deleteNewList, addTask, deleteTaskNew } =
   newlistSlice.actions;
 export default newlistSlice.reducer;

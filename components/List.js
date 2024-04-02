@@ -15,8 +15,9 @@ import { Modal } from "antd";
 
 function List(props) {
   const user = useSelector((state) => state.user.value);
-  const lists = useSelector((state) => state.lists.value);
-  const showList = useSelector((state) => state.showList.value);
+  const lists = useSelector((state) => state.lists.value.lists);
+  const share = useSelector((state) => state.lists.value.share);
+  const show = useSelector((state) => state.showList.value);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [usersShare, setUsersShare] = useState("");
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function List(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log("delete data", data);
-        dispatch(deleteList(props._id))
+        dispatch(deleteList(props._id));
       });
   };
 
@@ -45,17 +46,21 @@ function List(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          setUsersShare(data.data);
+          setUsersShare(data.data.filter((e) => e._id !== user.id));
         }
       });
   };
   let usersDisplay;
+
   usersShare &&
     (usersDisplay = usersShare.map((e) => {
-      console.log(e);
       return (
         <div>
-          <button id="register" onClick={() => handleShare(e._id)}>
+          <button
+            className={styles.btn}
+            id="register"
+            onClick={() => handleShare(e._id)}
+          >
             {e.username}
           </button>
         </div>
@@ -70,8 +75,8 @@ function List(props) {
         className={styles.xmark}
       />
       <div className={styles.registerSection}>
-        <p>Partager à quel utilisateur</p>
-        {usersDisplay}
+        <p className={styles.textShare}>Share to which user</p>
+        <div className={styles.shareUsers}>{usersDisplay}</div>
       </div>
     </div>
   );
@@ -95,11 +100,19 @@ function List(props) {
 
   //*afficher les détails d'une liste
   const handleEye = () => {
-    const showList = lists.find((list) => list._id === props._id);
-    console.log('variable', showList);
-    dispatch(addShowList({id: showList._id, title: showList.title, tasks: showList.tasks }));
+    let shareList;
+    const showList = (lists.find((list) => list._id === props._id));
+    showList ? dispatch(
+      addShowList({
+        id: showList._id,
+        title: showList.title,
+        tasks: showList.tasks,
+      })
+    ) : (shareList = (share.find((list) => list._id === props._id))
+    && dispatch(addShowList({id: shareList._id, title: shareList.title, tasks: shareListt.tasks})))
+console.log('showList',showList)
   };
-console.log('show', showList)
+
   return (
     <div className={styles.containerList}>
       <p className={styles.text}>{props.title}</p>
@@ -126,7 +139,7 @@ console.log('show', showList)
           <Modal
             getContainer="#react-modals"
             className={styles.modal}
-            visible={isModalVisible}
+            open={isModalVisible}
             closable={false}
             footer={null}
           >

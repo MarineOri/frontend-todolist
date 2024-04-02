@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 
 function Task(props) {
   const [checkedList, setCheckedList] = useState("");
+  const [isCompleted, setIsCompleted] = useState(false);
   const dispatch = useDispatch();
 
   /**supprimer une tache */
@@ -31,8 +32,16 @@ function Task(props) {
   const handleSelect = (event) => {
     const v = event.target.v;
     const isChecked = event.target.checked;
+    console.log('isChecked',isChecked);
+    setIsCompleted(isChecked);
     isChecked ? setCheckedList(v) : setCheckedList("");
   };
+
+  let textStyle = {};
+  if (isCompleted) {
+    textStyle = { textDecoration: "line-through" };
+  }
+  console.log('checked',checkedList);
 
   return (
     <div className={styles.containerTask}>
@@ -44,7 +53,7 @@ function Task(props) {
           onChange={handleSelect}
           className={styles.completeCheckbox}
         ></input>
-        <label className={styles.label}>{props.name}</label>
+        <label style={textStyle} className={styles.label}>{props.name}</label>
       </div>
       <div className={styles.icon}>
         <FontAwesomeIcon

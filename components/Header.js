@@ -39,7 +39,6 @@ function Header() {
         .then((response) => response.json())
         .then((data) => {
           if (data.result) {
-            console.log(data);
             dispatch(
               login({
                 username: signUpUsername,

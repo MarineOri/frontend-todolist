@@ -15,10 +15,7 @@ export const showListSlice = createSlice({
       state.value = {};
     },
     addTaskShow: (state, action) => {
-      const taskIndex = state.value.findIndex(
-        (e) => e.id === action.payload.id
-      );
-      state.value[taskIndex].tasks.push(action.payload.task);
+    state.value.tasks.push(action.payload);
     },
     deleteTaskShow: (state, action) => {
       state.value.tasks = state.value.tasks.filter((e) => e.id !== action.payload);

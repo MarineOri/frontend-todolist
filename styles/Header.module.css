@@ -153,6 +153,7 @@
 .inputInPass:focus, .inputInUsername:focus, .inputUpPass:focus, .inputUpUsername:focus {
   background-color: #daf8e3;
   color: #0086ad;
+  padding-left: 10px;
 }
 .btn {
   width: 5rem;

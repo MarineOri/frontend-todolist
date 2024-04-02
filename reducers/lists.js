@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: [],
+  value: {lists: [], share: []},
 };
 
 export const listsSlice = createSlice({
@@ -9,16 +9,16 @@ export const listsSlice = createSlice({
   initialState,
   reducers: {
     addList: (state, action) => {
-     state.value = action.payload;
+     state.value.lists = action.payload;
     },
-    addManyList: (state, action) => {
-      [...state.value, ...action.payload];
+    addShare: (state, action) => {
+      state.value.share = action.payload;
     },
     completeList: (state, action) => {
-      state.value.push(action.payload);
+      state.value.lists.push(action.payload);
     },
     deleteList: (state, action) => {
-      state.value = state.value.filter((e) => e._id !== action.payload);
+      state.value.lists = state.value.lists.filter((e) => e._id !== action.payload);
     },
     deleteLists: () => {
       return initialState;
@@ -35,6 +35,6 @@ export const listsSlice = createSlice({
   },
 });
 
-export const { addList, addManyList, completeList, deleteList, deleteLists } =
+export const { addList, addShare, completeList, deleteList, deleteLists, deleteTaskLists } =
   listsSlice.actions;
 export default listsSlice.reducer;
