@@ -2,7 +2,7 @@ import styles from "../styles/List.module.css";
 import Task from "./Task";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addShowList } from "../reducers/showList";
+import { addShowList, deleteShowList } from "../reducers/showList";
 import { deleteList } from "../reducers/lists";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -100,17 +100,28 @@ function List(props) {
 
   //*afficher les détails d'une liste
   const handleEye = () => {
-    let shareList;
-    const showList = (lists.find((list) => list._id === props._id));
-    showList ? dispatch(
-      addShowList({
-        id: showList._id,
-        title: showList.title,
-        tasks: showList.tasks,
-      })
-    ) : (shareList = (share.find((list) => list._id === props._id))
-    && dispatch(addShowList({id: shareList._id, title: shareList.title, tasks: shareListt.tasks})))
-console.log('showList',showList)
+    dispatch(deleteShowList());
+    let showList = lists.find((list) => list._id === props._id);
+    let shareList = share.find((list) => list._id === props._id);
+
+    if (showList) {
+      dispatch(
+        addShowList({
+          id: showList._id,
+          title: showList.title,
+          tasks: showList.tasks,
+        })
+      )}
+      
+      if(shareList) {
+          dispatch(
+            addShowList({
+              id: shareList._id,
+              title: shareList.title,
+              tasks: shareList.tasks,
+            })
+          )
+          }
   };
 
   return (

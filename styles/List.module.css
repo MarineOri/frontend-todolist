@@ -145,3 +145,15 @@
   font-size: large;
   font-weight: bolder;
 }
+.log {
+  font-family: Ubuntu Bold 700;
+  color: #0086ad;
+  font-size: xx-large;
+  font-weight: bolder;
+  text-align: center;
+ text-shadow: 2px 2px 5px #00c2c7;
+}
+.containerLog {
+  display: flex;
+ align-items: center;
+}

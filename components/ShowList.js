@@ -8,6 +8,7 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 function ShowList(props) {
   const showList = useSelector((state) => state.showList.value);
+  const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const [taskName, setTaskName] = useState("");
 
@@ -42,8 +43,9 @@ function ShowList(props) {
   };
 
   return (
-    <div className={styles.containerShowList}>
-      <p className={styles.title}>List : {showList.title}</p>
+    <>
+      { (user.token)?
+      (<div className={styles.containerShowList}><p className={styles.title}>List : {showList.title}</p>
       <div className={styles.container}>
         <form className={styles.addListForm}>
           <label htmlFor="Add a task" className={styles.label}>
@@ -61,8 +63,9 @@ function ShowList(props) {
           </button>
         </form>
       </div>
-      <div className={styles.tasksNew}>{showTasks && showTasks.reverse()}</div>
-    </div>
+      <div className={styles.tasksNew}>{showTasks && showTasks.reverse()}</div></div>) : (<div className={styles.containerLog}><p className={styles.log}>Log in or create an account !!</p></div>)
+    }
+    </>
   );
 }
 export default ShowList;

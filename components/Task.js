@@ -1,5 +1,5 @@
 import styles from "../styles/Task.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { deleteTask } from "../reducers/newlist";
@@ -7,8 +7,12 @@ import { useDispatch } from "react-redux";
 
 function Task(props) {
   const [checkedList, setCheckedList] = useState("");
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setIsChecked(props.isFinished);
+  }, []);
 
   /**supprimer une tache */
   const handledelete = () => {
@@ -22,26 +26,36 @@ function Task(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          props.deleteTask(props._id)
-          // dispatch(deleteTask(props._id));
+          props.deleteTask(props._id);
         }
       });
-
   };
 
   const handleSelect = (event) => {
-    const v = event.target.v;
-    const isChecked = event.target.checked;
-    console.log('isChecked',isChecked);
-    setIsCompleted(isChecked);
-    isChecked ? setCheckedList(v) : setCheckedList("");
+    // const v = event.target.v;
+    // const isChecked = event.target.checked;
+    // isChecked ? setCheckedList(v) : setCheckedList("");
+    fetch("http://localhost:3000/lists/isFinished", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        taskId: props._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          setIsChecked(!isChecked);
+        }
+      });
+
+ 
   };
 
   let textStyle = {};
-  if (isCompleted) {
+  if (isChecked) {
     textStyle = { textDecoration: "line-through" };
   }
-  console.log('checked',checkedList);
 
   return (
     <div className={styles.containerTask}>
@@ -51,15 +65,21 @@ function Task(props) {
           name="tasks"
           value={props.name}
           onChange={handleSelect}
+          checked={isChecked}
           className={styles.completeCheckbox}
         ></input>
-        <label style={textStyle} className={styles.label}>{props.name}</label>
+        <label style={textStyle} className={styles.label}>
+          {props.name}
+        </label>
       </div>
       <div className={styles.icon}>
         <FontAwesomeIcon
           icon={faTrashCan}
           className={styles.icon}
-          onClick={(props) => {handledelete(props)}}/>
+          onClick={(props) => {
+            handledelete(props);
+          }}
+        />
       </div>
     </div>
   );
