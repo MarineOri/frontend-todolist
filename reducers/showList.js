@@ -20,8 +20,11 @@ export const showListSlice = createSlice({
     deleteTaskShow: (state, action) => {
       state.value.tasks = state.value.tasks.filter((e) => e.id !== action.payload);
     },
+    updateTask: (state, action) => {
+      state.value.tasks.map((task) => (task._id === action.payload.id) && (task.name = action.payload.name));
+    }
   }
 });
 
-export const { addShowList, deleteShowList, addTaskShow, deleteTaskShow } = showListSlice.actions;
+export const { addShowList, deleteShowList, addTaskShow, deleteTaskShow, updateTask } = showListSlice.actions;
 export default showListSlice.reducer;
