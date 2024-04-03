@@ -53,7 +53,6 @@ function Header() {
             setErrorMsgUp(data.error);
           }
         });
-    // .catch((error) => console.log(error));
   };
 
   const handleSignin = (e) => {
@@ -84,7 +83,6 @@ function Header() {
             setErrorMsgIn(data.error);
           }
         });
-    // .catch((error) => console.log(error));
   };
 
   const handleLogout = () => {

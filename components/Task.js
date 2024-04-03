@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { updateTask } from "../reducers/showList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Task(props) {
-  // const [checkedList, setCheckedList] = useState("");
+  const showList = useSelector((state) => state.showList.value);
   const [isChecked, setIsChecked] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [update, setUpdate] = useState("false");
@@ -14,7 +14,7 @@ function Task(props) {
 
   useEffect(() => {
     setIsChecked(props.isFinished);
-  }, []);
+  }, [showList.id, showList.tasks.length]);
 
   /**supprimer une tache */
   const handledelete = () => {
@@ -55,7 +55,7 @@ function Task(props) {
 
   //*modifier une tache
   const handleUpdate = () => {
-    fetch("http://localhost:3000/lists/nameTask", {
+    taskName && (fetch("http://localhost:3000/lists/nameTask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -69,7 +69,7 @@ function Task(props) {
           dispatch(updateTask({ id: props._id, name: taskName }));
           setUpdate(!update);
         }
-      });
+      }))
   };
 
   let textStyle = {};

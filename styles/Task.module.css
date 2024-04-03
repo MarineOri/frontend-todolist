@@ -8,13 +8,11 @@
   color: #0086ad;
   font-family: "Ubuntu";
   font-size: 15px;
-  /* border: 1px solid #0086ad; */
   box-shadow: 1px 1px 8px #0086ad;
   padding: 0 40px 0 20px;
 }
 .container {
   cursor: pointer;
-  /* background-color: #97ebdb; */
 }
 
 .container input {

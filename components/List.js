@@ -34,8 +34,9 @@ function List(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("delete data", data);
+        if(data){
         dispatch(deleteList(props._id));
+        }
       });
   };
 
@@ -51,8 +52,19 @@ function List(props) {
       });
   };
   let usersDisplay;
-
-  usersShare &&
+  (usersShare.length === 1) && 
+  (usersDisplay =
+      <div>
+        <button
+          className={styles.btn}
+          id="register"
+          onClick={() => handleShare(usersShare[0]._id)}
+        >
+          {usersShare[0].username}
+        </button>
+      </div>
+  );
+(usersShare.length > 1) &&
     (usersDisplay = usersShare.map((e) => {
       return (
         <div>
@@ -94,7 +106,6 @@ function List(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("share data", data);
       });
   };
 

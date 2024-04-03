@@ -18,7 +18,7 @@ export const showListSlice = createSlice({
     state.value.tasks.push(action.payload);
     },
     deleteTaskShow: (state, action) => {
-      state.value.tasks = state.value.tasks.filter((e) => e.id !== action.payload);
+      state.value.tasks = state.value.tasks.filter((e) => e._id !== action.payload);
     },
     updateTask: (state, action) => {
       state.value.tasks.map((task) => (task._id === action.payload.id) && (task.name = action.payload.name));

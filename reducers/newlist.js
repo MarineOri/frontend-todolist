@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: { id: null, title: null, tasks: [] },
+  value: { _id: null, title: null, tasks: [] },
 };
 
 export const newlistSlice = createSlice({
@@ -9,11 +9,11 @@ export const newlistSlice = createSlice({
   initialState,
   reducers: {
     addIdTtitle: (state, action) => {
-      state.value.id = action.payload.id;
+      state.value._id = action.payload.id;
       state.value.title = action.payload.title;
     },
     deleteNewList: (state) => {
-      state.value = { id: null, title: null, tasks: [] };
+      state.value = { _id: null, title: null, tasks: [] };
     },
     addTask: (state, action) => {
       state.value.tasks.push(action.payload);

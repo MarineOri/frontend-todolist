@@ -23,12 +23,6 @@ export const listsSlice = createSlice({
     deleteLists: () => {
       return initialState;
     },
-    completeTask: (state, action) => {
-      const taskIndex = state.value.findIndex(
-        (e) => e.id === action.payload.id
-      );
-      state.value[taskIndex].tasks.push(action.payload.task);
-    },
     deleteTaskLists: (state, action) => {
       state.value.tasks = state.value.tasks.filter((e) => e._id !== action.payload);
     },
